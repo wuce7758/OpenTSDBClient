@@ -7,9 +7,6 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.concurrent.TimeUnit;
 
-import zx.soft.opentsdb.client.OpenTsdbClient;
-import zx.soft.opentsdb.metric.OpenTsdbMetric;
-
 import com.codahale.metrics.Clock;
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.Gauge;
@@ -20,6 +17,9 @@ import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.ScheduledReporter;
 import com.codahale.metrics.Snapshot;
 import com.codahale.metrics.Timer;
+
+import zx.soft.opentsdb.client.OpenTsdbClient;
+import zx.soft.opentsdb.metric.OpenTsdbMetric;
 
 /**
  * Reporter实现类，将Metric数据发送到OpenTSDB服务器上
@@ -284,7 +284,7 @@ public class OpenTsdbReporter extends ScheduledReporter {
 
 	@SuppressWarnings("rawtypes")
 	private OpenTsdbMetric buildGauge(String name, Gauge gauge, long timestamp) {
-		return OpenTsdbMetric.named(prefix(name, "value")).withValue(gauge.getValue()).withTimestamp(timestamp)
+		return OpenTsdbMetric.named(prefix(name, "value")).withTimestamp(timestamp).withValue(gauge.getValue())
 				.withTags(tags).build();
 	}
 
